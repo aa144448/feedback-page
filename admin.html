@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student Feedback Dashboard · Abdullah Arabic Teacher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#0097B2; --teal-dark:#00707F; --ivory:#FAF7F2;
+  --bg:#121516; --panel:#1B1F21; --line:#2A3033; --muted:#9BA5A9; --text:#EDEFF0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 20px 64px}
+header{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:8px 0 24px;border-bottom:1px solid var(--line)}
+h1{margin:0;font-family:Lora,serif;font-size:1.6rem;font-weight:600}
+.sub{color:var(--muted);font-size:.9rem;margin-top:2px}
+.btn{font:inherit;font-weight:600;font-size:.9rem;border-radius:8px;padding:10px 16px;cursor:pointer;border:1px solid var(--teal);background:transparent;color:var(--teal);transition:background .15s,color .15s}
+.btn:hover:not(:disabled){background:var(--teal);color:#fff}
+.btn.primary{background:var(--teal-dark);border-color:var(--teal-dark);color:#fff}
+.btn.primary:hover:not(:disabled){background:var(--teal);border-color:var(--teal)}
+.btn:disabled{opacity:.6;cursor:progress}
+:focus-visible{outline:3px solid #5fd3e6;outline-offset:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:24px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.stat .label{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+.stat .value{font-size:1.9rem;font-weight:700;margin-top:4px}
+.stat .value small{font-size:.9rem;color:var(--muted);font-weight:500}
+.list{display:grid;gap:16px}
+.card{background:var(--ivory);color:#1c2224;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px;border-top:4px solid var(--teal)}
+.card-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline}
+.name{font-weight:700;font-size:1.1rem}
+.date{color:#5b666a;font-size:.85rem}
+.stars{color:var(--teal-dark);font-size:1.25rem;letter-spacing:2px}
+.stars .num{font-size:.8rem;letter-spacing:0;color:#5b666a;margin-left:6px}
+.quote{margin:0;font-family:Lora,serif;font-size:1.05rem;white-space:pre-wrap;overflow-wrap:anywhere;direction:auto;unicode-bidi:plaintext;text-align:start}
+.badge{display:inline-block;font-size:.72rem;font-weight:600;border:1px solid #9aa5a8;color:#4a565a;border-radius:99px;padding:2px 9px;width:fit-content}
+.badge.private{border-color:#a33;color:#a33}
+.card-actions{margin-top:auto}
+.card .btn{color:var(--teal-dark);border-color:var(--teal-dark)}
+.card .btn.primary{color:#fff}
+.state{text-align:center;padding:64px 20px;background:var(--panel);border:1px dashed var(--line);border-radius:14px}
+.state h2{margin:0 0 6px;font-family:Lora,serif}
+.state p{margin:0 0 16px;color:var(--muted)}
+.spinner{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--teal);border-radius:50%;margin:0 auto 14px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spinner{animation:none}}
+@media(max-width:560px){h1{font-size:1.3rem}.card{padding:18px}}
+/* Off-screen Instagram card (fixed 1080x1080) */
+#insta-stage{position:fixed;left:-20000px;top:0;width:1080px;height:1080px;pointer-events:none}
+.insta{width:1080px;height:1080px;background:#0F1415;color:#FAF7F2;font-family:Inter,system-ui,sans-serif;display:flex;flex-direction:column;padding:88px 96px;position:relative;overflow:hidden}
+.insta::before{content:"";position:absolute;inset:36px;border:2px solid rgba(0,151,178,.45);border-radius:6px}
+.insta .brand{position:relative;color:#0097B2;letter-spacing:.28em;font-weight:600;font-size:26px;text-align:center}
+.insta .body{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.insta .mark{font-family:Lora,serif;font-size:140px;line-height:.6;color:#0097B2;height:70px}
+.insta .qtext{font-family:Lora,serif;font-weight:500;line-height:1.35;overflow-wrap:anywhere;white-space:pre-wrap;direction:auto;unicode-bidi:plaintext;text-align:start;max-height:520px;overflow:hidden}
+.insta .who{position:relative;text-align:center;margin-top:24px}
+.insta .who .n{font-size:36px;font-weight:600;direction:auto;unicode-bidi:plaintext}
+.insta .who .st{color:#0097B2;font-size:44px;letter-spacing:8px;margin-top:8px}
+.insta .foot{position:relative;text-align:center;margin-top:26px;color:#9BA5A9;font-size:22px;letter-spacing:.06em}
+.insta .foot b{color:#FAF7F2;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Abdullah Arabic Teacher</h1>
+      <div class="sub">Student Feedback Dashboard</div>
+    </div>
+    <button class="btn" id="refreshBtn" type="button" aria-label="Refresh feedback from database">Refresh Feedback</button>
+  </header>
+
+  <section class="stats" aria-label="Summary statistics">
+    <div class="stat"><div class="label">Total Reviews</div><div class="value" id="statTotal">—</div></div>
+    <div class="stat"><div class="label">Average Rating</div><div class="value" id="statAvg">—</div></div>
+    <div class="stat"><div class="label">5-Star Reviews</div><div class="value" id="statFive">—</div></div>
+  </section>
+
+  <main id="content" aria-live="polite"></main>
+</div>
+
+<div id="insta-stage" aria-hidden="true"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+"use strict";
+
+/* ---------- Config (read-only dashboard; public publishable key only) ---------- */
+const SUPABASE_URL = "https://dznivggvdhqigttovuaa.supabase.co";
+const SUPABASE_KEY = "sb_publishable_qJAubM7spLApOsZebYZimA_PVb7Vqrk";
+const TABLE = "feedback_submissions";
+
+let db = null;
+try { db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); }
+catch (e) { console.error("Supabase init failed:", e); }
+
+/* Column names are not assumed: each logical field is looked up from likely names. */
+const FIELD_KEYS = {
+  name: ["student_name","name","full_name","fullname","display_name","student"],
+  rating: ["rating","stars","star_rating","score"],
+  text: ["feedback","feedback_text","message","testimonial","comment","comments","review","written_feedback","text","content"],
+  permission: ["permission","display_permission","publish_permission","testimonial_permission","consent","visibility","privacy"],
+  date: ["created_at","submitted_at","inserted_at"]
+};
+
+const $ = (id) => document.getElementById(id);
+const content = $("content");
+let feedbackRows = [];
+let busy = false;
+
+/* ---------- Helpers ---------- */
+function escapeHtml(v){
+  return String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function pick(row, keys){
+  for (const k of keys){
+    if (row[k] !== undefined && row[k] !== null && String(row[k]).trim() !== "") return row[k];
+  }
+  return null;
+}
+function normalize(row){
+  const known = new Set(Object.values(FIELD_KEYS).flat().concat(["id","uuid","user_id","email","phone"]));
+  let text = pick(row, FIELD_KEYS.text);
+  if (text === null){ // last resort: longest free-text string field not otherwise known
+    const cands = Object.entries(row).filter(([k,v]) => !known.has(k) && typeof v === "string" && v.length > 20 && !/^\d{4}-\d\d-\d\d/.test(v));
+    cands.sort((a,b) => b[1].length - a[1].length);
+    if (cands.length) text = cands[0][1];
+  }
+  let rating = Number(pick(row, FIELD_KEYS.rating));
+  rating = Number.isFinite(rating) ? Math.max(0, Math.min(5, Math.round(rating))) : null;
+  const perm = String(pick(row, FIELD_KEYS.permission) ?? "").toLowerCase();
+  return {
+    raw: row,
+    name: pick(row, FIELD_KEYS.name),
+    rating,
+    text: text === null ? "" : String(text).trim(),
+    date: pick(row, FIELD_KEYS.date),
+    permission: perm.includes("anon") ? "anonymous" : perm.includes("priv") ? "private" : perm.includes("name") ? "with_name" : ""
+  };
+}
+function starString(n){
+  if (n === null) return "—";
+  return "★".repeat(n) + "☆".repeat(5 - n);
+}
+function formatDate(v){
+  if (!v) return "—";
+  const d = new Date(v);
+  if (isNaN(d)) return "—";
+  return d.toLocaleDateString("en-US", {year:"numeric", month:"long", day:"numeric"});
+}
+function sanitizeFilename(s){
+  const clean = String(s || "").normalize("NFKD").replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-+|-+$/g, "").toLowerCase().slice(0, 50);
+  return clean || "student";
+}
+function calculateStats(items){
+  const rated = items.filter(i => i.rating !== null);
+  const avg = rated.length ? rated.reduce((s,i) => s + i.rating, 0) / rated.length : null;
+  return { total: items.length, avg, five: items.filter(i => i.rating === 5).length };
+}
+function displayName(item){
+  if (item.permission === "anonymous") return "Anonymous Student";
+  return item.name ? String(item.name).trim() : "Student";
+}
+
+/* ---------- Rendering ---------- */
+function renderStats(items){
+  const s = calculateStats(items);
+  $("statTotal").textContent = s.total;
+  $("statAvg").innerHTML = s.avg === null ? "—" : `${s.avg.toFixed(1)} <small>/ 5</small>`;
+  $("statFive").textContent = s.five;
+}
+function showLoading(){
+  content.innerHTML = `<div class="state" role="status"><div class="spinner"></div><h2>Loading student feedback...</h2></div>`;
+}
+function showError(){
+  content.innerHTML = `<div class="state" role="alert"><h2>Unable to load feedback</h2><p>Please check your connection and try again.</p><button class="btn primary" id="retryBtn" type="button">Try Again</button></div>`;
+  $("retryBtn").addEventListener("click", loadFeedback);
+}
+function renderFeedback(items){
+  renderStats(items);
+  if (!items.length){
+    content.innerHTML = `<div class="state"><h2>No feedback yet</h2><p>Student feedback will appear here once submissions are received.</p></div>`;
+    return;
+  }
+  content.innerHTML = `<div class="list">` + items.map((it, i) => {
+    const nm = escapeHtml(displayName(it));
+    const badge = it.permission === "private" ? `<span class="badge private">Private — not for public use</span>`
+                : it.permission === "anonymous" ? `<span class="badge">Anonymous</span>` : "";
+    return `<article class="card">
+      <div class="card-top"><div class="name">${nm}</div><time class="date">${escapeHtml(formatDate(it.date))}</time></div>
+      <div class="stars" role="img" aria-label="Rating: ${it.rating === null ? "not provided" : it.rating + " out of 5 stars"}">${starString(it.rating)}<span class="num">${it.rating === null ? "" : it.rating + "/5"}</span></div>
+      ${badge}
+      <blockquote class="quote">${it.text ? escapeHtml(it.text) : "No written feedback provided."}</blockquote>
+      <div class="card-actions"><button class="btn primary dl-btn" type="button" data-index="${i}" aria-label="Download Instagram card for ${nm}">Download Insta Card</button></div>
+    </article>`;
+  }).join("") + `</div>`;
+}
+
+/* ---------- Data ---------- */
+async function loadFeedback(){
+  showLoading();
+  $("refreshBtn").disabled = true;
+  try {
+    if (!db) throw new Error("Supabase client not initialised");
+    const { data, error } = await db.from(TABLE).select("*").order("created_at", { ascending: false });
+    if (error) throw error;
+    feedbackRows = (data || []).map(normalize);
+    renderFeedback(feedbackRows);
+  } catch (err) {
+    console.error("Failed to load feedback:", err);
+    renderStats([]);
+    showError();
+  } finally {
+    $("refreshBtn").disabled = false;
+  }
+}
+
+/* ---------- Instagram card ---------- */
+function fontSizeFor(len){
+  if (len <= 70) return 68;
+  if (len <= 140) return 58;
+  if (len <= 240) return 48;
+  if (len <= 380) return 40;
+  if (len <= 560) return 33;
+  if (len <= 800) return 28;
+  return 24;
+}
+function createInstagramCard(item){
+  const stage = $("insta-stage");
+  const text = item.text || "No written feedback provided.";
+  stage.innerHTML = `
+    <div class="insta" id="insta-card">
+      <div class="brand">ABDULLAH ARABIC TEACHER</div>
+      <div class="body">
+        <div class="mark" aria-hidden="true">“</div>
+        <div class="qtext" id="insta-q">${escapeHtml(text)}</div>
+      </div>
+      <div class="who">
+        <div class="n">— ${escapeHtml(displayName(item))}</div>
+        <div class="st">${starString(item.rating)}</div>
+      </div>
+      <div class="foot"><b>Abdullah Arabic Teacher</b> · Arabic for Non-Native Speakers</div>
+    </div>`;
+  const q = $("insta-q");
+  let size = fontSizeFor(text.length);
+  q.style.fontSize = size + "px";
+  while (q.scrollHeight > q.clientHeight + 1 && size > 16){ size -= 2; q.style.fontSize = size + "px"; }
+  q.insertAdjacentHTML("afterbegin", "");
+  return $("insta-card");
+}
+async function downloadInstagramCard(index, btn){
+  if (busy) return;
+  const item = feedbackRows[index];
+  if (!item) return;
+  if (item.permission === "private" &&
+      !confirm("This student chose to keep their feedback private. Create the card anyway?")) return;
+  busy = true;
+  const original = btn.textContent;
+  document.querySelectorAll(".dl-btn").forEach(b => b.disabled = true);
+  btn.textContent = "Generating...";
+  try {
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const el = createInstagramCard(item);
+    const raw = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: "#0F1415", width: 1080, height: 1080, windowWidth: 1080 });
+    const out = document.createElement("canvas");   // normalise to exactly 1080×1080
+    out.width = 1080; out.height = 1080;
+    const ctx = out.getContext("2d");
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(raw, 0, 0, 1080, 1080);
+    const blob = await new Promise(res => out.toBlob(res, "image/png"));
+    if (!blob) throw new Error("PNG export failed");
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `abdullah-arabic-testimonial-${sanitizeFilename(displayName(item))}.png`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  } catch (err) {
+    console.error("Instagram card generation failed:", err);
+    alert("Could not generate the card. Please try again.");
+  } finally {
+    $("insta-stage").innerHTML = "";
+    btn.textContent = original;
+    document.querySelectorAll(".dl-btn").forEach(b => b.disabled = false);
+    busy = false;
+  }
+}
+
+/* ---------- Init ---------- */
+content.addEventListener("click", (e) => {
+  const btn = e.target.closest(".dl-btn");
+  if (btn) downloadInstagramCard(Number(btn.dataset.index), btn);
+});
+$("refreshBtn").addEventListener("click", loadFeedback);
+loadFeedback();
+</script>
+</body>
+</html>
