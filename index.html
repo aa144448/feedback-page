@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Your Feedback Matters — Ustadh Abdullah Ayman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --t:#0097B2; --td:#00707F; --ivory:#FAF7F2; --white:#FFFFFF;
+  --ink:#1F2E33; --muted:#5B6B70; --line:#E6E0D5; --err:#B3261E;
+  --serif:'Lora',Georgia,'Times New Roman',serif;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{
+  margin:0;background-color:var(--ivory);color:var(--ink);
+  font:16px/1.6 var(--sans);overflow-x:hidden;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%230097B2' stroke-opacity='.07' stroke-width='1'%3E%3Cpath d='M36 6 L46 26 L66 36 L46 46 L36 66 L26 46 L6 36 L26 26 Z'/%3E%3Cpath d='M36 6 L36 66 M6 36 L66 36' stroke-opacity='.04'/%3E%3C/g%3E%3C/svg%3E");
+}
+main{max-width:680px;margin:0 auto;padding:40px 16px 64px}
+h1,h2{font-family:var(--serif);font-weight:600;line-height:1.25;margin:0}
+
+/* Header */
+.identity{text-align:center;padding:8px 0 28px}
+.arch{display:block;margin:0 auto 14px}
+.name{font-family:var(--serif);font-size:1.5rem;color:var(--td);margin:0;font-weight:600;letter-spacing:.01em}
+.role{margin:4px 0 0;color:var(--muted);font-size:.95rem}
+.rule{display:flex;align-items:center;gap:10px;justify-content:center;margin:18px auto 0;max-width:220px;color:var(--t)}
+.rule::before,.rule::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--t));opacity:.5}
+.rule::after{transform:scaleX(-1)}
+.rule i{width:7px;height:7px;background:var(--t);transform:rotate(45deg);display:block}
+
+.intro{text-align:center;margin-bottom:32px}
+h1{font-size:clamp(2rem,7vw,2.75rem);color:var(--ink)}
+.sub{font-family:var(--serif);font-size:1.1rem;color:var(--td);margin:12px auto 0;max-width:30em}
+.intro p{color:var(--muted);max-width:34em;margin:16px auto 0}
+
+/* Cards */
+.card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:24px 20px;margin-bottom:20px;position:relative}
+.card.accent{border-top:3px solid var(--t)}
+.card h2{font-size:1.3rem;margin-bottom:6px}
+.hint{color:var(--muted);margin:0 0 18px;font-size:.95rem}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{padding:0;font-weight:500;width:100%}
+label.lbl{display:block;font-weight:500;margin-bottom:8px}
+.req{color:var(--td)}
+input[type=text],textarea{
+  width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--ivory);
+  border:1.5px solid var(--line);border-radius:12px;padding:14px;transition:border-color .2s,box-shadow .2s,background .2s
+}
+textarea{min-height:170px;resize:vertical;line-height:1.6}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--t);background:var(--white);box-shadow:0 0 0 4px rgba(0,151,178,.15)}
+::placeholder{color:#8D9A9E}
+.err{color:var(--err);font-size:.88rem;margin:8px 0 0;display:none}
+.invalid .err{display:block}
+.invalid input[type=text],.invalid textarea{border-color:var(--err)}
+.invalid.card{border-color:var(--err)}
+
+/* Stars */
+.stars{display:flex;justify-content:center;gap:4px;margin:8px 0 6px}
+.star{position:relative;cursor:pointer;padding:4px;line-height:0;-webkit-tap-highlight-color:transparent}
+.star input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.star svg{width:clamp(44px,13vw,56px);height:auto;fill:none;stroke:var(--t);stroke-width:1.6;stroke-linejoin:round;transition:fill .15s,transform .2s}
+.star.on svg{fill:var(--t)}
+.star.pop svg{animation:pop .35s ease}
+.star:has(input:focus-visible){outline:3px solid var(--td);outline-offset:2px;border-radius:10px}
+@keyframes pop{40%{transform:scale(1.22)}100%{transform:scale(1)}}
+.star-label{text-align:center;min-height:1.6em;color:var(--td);font-weight:600}
+.legend-scale{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;color:var(--muted);font-size:.8rem;margin-top:8px}
+
+/* Scale rows */
+.q{padding:18px 0;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:0;padding-top:4px}
+.q legend{margin-bottom:12px;line-height:1.5}
+.q .n{color:var(--td);font-weight:600;margin-right:6px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.scale label{position:relative}
+.scale input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.scale span{display:flex;align-items:center;justify-content:center;min-height:52px;border:1.5px solid var(--line);border-radius:12px;background:var(--ivory);font-weight:600;color:var(--muted);transition:background .18s,color .18s,border-color .18s,transform .18s}
+.scale label:hover span{border-color:var(--t);color:var(--td)}
+.scale input:checked+span{background:var(--t);border-color:var(--t);color:#fff;transform:translateY(-1px)}
+.scale input:focus-visible+span{outline:3px solid var(--td);outline-offset:2px}
+.ends{display:flex;justify-content:space-between;color:var(--muted);font-size:.78rem;margin-top:8px}
+.picked{min-height:1.3em;color:var(--td);font-size:.85rem;font-weight:500;margin-top:4px}
+
+/* Testimonial */
+.testimonial{background:linear-gradient(180deg,#F1FAFC,#fff 60%);}
+
+/* Consent */
+.opt{display:block;position:relative;margin-bottom:10px}
+.opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.opt span{display:flex;gap:12px;align-items:flex-start;padding:16px;border:1.5px solid var(--line);border-radius:12px;background:var(--ivory);transition:border-color .18s,background .18s}
+.opt span::before{content:"";flex:none;width:22px;height:22px;margin-top:1px;border-radius:50%;border:2px solid #A9B7BB;background:#fff;transition:.18s}
+.opt:hover span{border-color:var(--t)}
+.opt input:checked+span{border-color:var(--t);background:#EAF7FA}
+.opt input:checked+span::before{border-color:var(--t);background:radial-gradient(circle,var(--t) 0 45%,#fff 50%)}
+.opt input:focus-visible+span{outline:3px solid var(--td);outline-offset:2px}
+
+/* Submit */
+.submit{width:100%;min-height:58px;border:0;border-radius:14px;background:var(--t);color:#fff;font:600 1.05rem var(--sans);cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 6px 16px rgba(0,151,178,.25)}
+.submit:hover{background:var(--td);transform:translateY(-1px)}
+.submit:active{transform:translateY(0)}
+.submit:focus-visible{outline:3px solid var(--td);outline-offset:3px}
+.submit[disabled]{opacity:.8;cursor:progress;transform:none}
+.form-error{color:var(--err);text-align:center;margin:0 0 14px;display:none;font-weight:500}
+.privacy{text-align:center;font-size:.75rem;color:#7C8A8E;margin:16px 0 0}
+
+/* Success */
+.success{display:none;text-align:center;padding:44px 24px}
+.success.show{display:block;animation:fade .5s ease}
+.check{width:72px;height:72px;margin:0 auto 18px;display:block}
+.check circle{fill:#EAF7FA;stroke:var(--t);stroke-width:2}
+.check path{fill:none;stroke:var(--td);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40;animation:draw .6s .25s forwards}
+.success p{color:var(--muted);max-width:30em;margin:14px auto 0}
+.demo{font-size:.78rem;color:#7C8A8E;border-top:1px solid var(--line);padding-top:14px;margin-top:24px!important}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+@media (min-width:600px){
+  main{padding-top:64px}
+  .card{padding:32px 36px}
+  .scale{max-width:420px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.check path{stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+<main>
+  <header class="identity">
+    <svg class="arch" width="34" height="42" viewBox="0 0 34 42" fill="none" aria-hidden="true">
+      <path d="M3 41V17C3 8 10 2 17 2s14 6 14 15v24" stroke="#0097B2" stroke-width="1.5"/>
+      <path d="M10 41V18c0-5 3-9 7-9s7 4 7 9v23" stroke="#0097B2" stroke-width="1" opacity=".5"/>
+    </svg>
+    <p class="name">Ustadh Abdullah Ayman</p>
+    <p class="role">Arabic Teacher for Non-Native Speakers</p>
+    <div class="rule" aria-hidden="true"><i></i></div>
+  </header>
+
+  <section class="intro">
+    <h1>Your Feedback Matters</h1>
+    <p class="sub">Share Your Experience Learning Arabic with Ustadh Abdullah Ayman</p>
+    <p>Your feedback helps me understand what is working well, improve my teaching, and make your Arabic learning experience even better. This will only take a few minutes.</p>
+    <p>JazakAllahu khayran for taking the time to share your feedback.</p>
+  </section>
+
+  <form id="form" novalidate>
+    <div class="card accent" id="c-name" data-field="student_name">
+      <label class="lbl" for="student_name">Your Name <span class="req" aria-hidden="true">*</span></label>
+      <input type="text" id="student_name" name="student_name" placeholder="Enter your name" autocomplete="name" required aria-describedby="e-name">
+      <p class="err" id="e-name" role="alert">Please enter your name.</p>
+    </div>
+
+    <div class="card" id="c-overall" data-field="overall_rating">
+      <fieldset>
+        <legend><h2>How would you rate your overall experience with your teacher? <span class="req" aria-hidden="true">*</span></h2></legend>
+        <div class="stars" id="stars"></div>
+        <div class="star-label" id="star-label" aria-live="polite"></div>
+        <div class="legend-scale" aria-hidden="true"><span>1 — Very Poor</span><span>2 — Poor</span><span>3 — Good</span><span>4 — Very Good</span><span>5 — Excellent</span></div>
+        <p class="err" role="alert">Please choose an overall rating.</p>
+      </fieldset>
+    </div>
+
+    <div class="card" id="c-detail">
+      <h2>Your Learning Experience</h2>
+      <p class="hint">Please tell me how you feel about the following aspects of your learning experience.</p>
+      <div id="questions"></div>
+    </div>
+
+    <div class="card testimonial" id="c-feedback" data-field="feedback">
+      <h2>Share Your Experience</h2>
+      <p class="hint">In a few sentences, what did you like most about learning with me? You can also share anything that you think could make your learning experience even better.</p>
+      <label class="lbl" for="feedback" style="position:absolute;left:-9999px">Your feedback</label>
+      <textarea id="feedback" name="feedback" placeholder="Write your feedback here..." aria-describedby="e-fb"></textarea>
+      <p class="hint" style="margin:10px 0 0;font-size:.85rem">A thoughtful paragraph is welcome. Just write naturally, in your own words.</p>
+      <p class="err" id="e-fb" role="alert">Please share a few words about your experience.</p>
+    </div>
+
+    <div class="card" id="c-consent" data-field="public_feedback_permission">
+      <fieldset>
+        <legend><h2>May I Share Your Feedback? <span class="req" aria-hidden="true">*</span></h2></legend>
+        <p class="hint">With your permission, I may share your written feedback on my website or social media to help future students learn more about my teaching.</p>
+        <label class="opt"><input type="radio" name="public_feedback_permission" value="with_name"><span>Yes, you may share my feedback with my name.</span></label>
+        <label class="opt"><input type="radio" name="public_feedback_permission" value="anonymous"><span>Yes, you may share my feedback anonymously.</span></label>
+        <label class="opt"><input type="radio" name="public_feedback_permission" value="private"><span>No, please keep my feedback private.</span></label>
+        <p class="err" role="alert">Please choose a sharing preference.</p>
+      </fieldset>
+    </div>
+
+    <p class="form-error" id="form-error" role="alert"></p>
+    <button type="submit" class="submit" id="submit">Submit My Feedback</button>
+    <p class="privacy">Your feedback will only be used according to the sharing preference you select above.</p>
+  </form>
+
+  <section class="card success" id="success" tabindex="-1" aria-live="polite">
+    <svg class="check" viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="33"/><path d="M22 37l10 10 18-21"/></svg>
+    <h2>Thank You!</h2>
+    <p>JazakAllahu khayran for taking the time to share your feedback. Your feedback genuinely helps me improve my teaching and support my students better.</p>
+  </section>
+</main>
+
+<script>
+/* ============ SUPABASE CONFIG ============
+   Publishable key only (safe in the browser because RLS limits anon to INSERT).
+   Never put an sb_secret_... key in this file. */
+const SUPABASE_URL = 'https://dznivggvdhqigttovuaa.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_qJAubM7spLApOsZebYZimA_PVb7Vqrk';
+const SUPABASE_TABLE = 'feedback_submissions';
+
+class SubmitError extends Error {}   // message = safe, student-friendly text
+
+/* INSERT only. No GET / PATCH / DELETE anywhere in this page.
+   Payload keys = database column names in public.feedback_submissions. */
+async function submitFeedback(payload){
+  let res;
+  try {
+    res = await fetch(`${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_PUBLISHABLE_KEY,
+        'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    });
+  } catch (err) {
+    console.error('[feedback] Network error while contacting Supabase:', err);
+    throw new SubmitError('We could not reach the server. Please check your internet connection and try again.');
+  }
+  if (res.ok) return;
+
+  let detail = '';
+  try { detail = await res.text(); } catch (_) {}
+  console.error(`[feedback] Supabase INSERT failed: HTTP ${res.status} ${res.statusText}`, detail, 'payload keys:', Object.keys(payload));
+
+  if (res.status === 401 || res.status === 403)
+    throw new SubmitError('Sorry, your feedback could not be sent because of a permission problem. Please let Ustadh Abdullah know.');
+  if (res.status === 404)
+    throw new SubmitError('Sorry, the feedback service could not be found. Please let Ustadh Abdullah know.');
+  if (res.status === 400 || res.status === 422)
+    throw new SubmitError('Sorry, something in the form could not be processed. Please review your answers and try again, or let Ustadh Abdullah know.');
+  throw new SubmitError('Sorry, something went wrong on our side. Please try again in a moment.');
+}
+
+/* ============ DATA ============ */
+const OVERALL = ['Very Poor','Poor','Good','Very Good','Excellent'];
+const AGREE = ['Strongly Disagree','Disagree','Neutral','Agree','Strongly Agree'];
+const QUESTIONS = [
+  ['punctuality_preparation','My teacher was punctual and well-prepared for each lesson.'],
+  ['clarity','My teacher explained concepts clearly and in a simple way.'],
+  ['speaking_improvement','My teacher encouraged me to speak Arabic and helped me improve my speaking skills.'],
+  ['confidence','My teacher helped me feel more confident when speaking Arabic.'],
+  ['materials','The learning materials and files used during the lessons were useful and well-organized.'],
+  ['lesson_structure','The lessons were well-structured and appropriate for my level and learning goals.'],
+  ['progress','I feel that I made meaningful progress in Arabic during this month.'],
+  ['feedback_corrections','My teacher listened to my questions and gave me helpful corrections and feedback.']
+];
+
+const $ = s => document.querySelector(s);
+const form = $('#form');
+
+/* ============ BUILD STARS ============ */
+const starsEl = $('#stars'), starLabel = $('#star-label');
+const STAR_PATH = 'M12 2.6l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4 6.1 20.7l1.3-6.6L2.5 9.5l6.6-.8z';
+for (let i = 1; i <= 5; i++){
+  const l = document.createElement('label');
+  l.className = 'star';
+  l.innerHTML = `<input type="radio" name="overall_rating" value="${i}" aria-label="${i} — ${OVERALL[i-1]}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${STAR_PATH}"/></svg>`;
+  starsEl.appendChild(l);
+}
+const starEls = [...starsEl.children];
+function paintStars(n, label){
+  starEls.forEach((s, i) => s.classList.toggle('on', i < n));
+  starLabel.textContent = n ? `${n} — ${OVERALL[n-1]}` : '';
+}
+starEls.forEach((s, i) => {
+  s.addEventListener('mouseenter', () => paintStars(i + 1));
+  s.querySelector('input').addEventListener('change', () => {
+    paintStars(i + 1);
+    s.classList.remove('pop'); void s.offsetWidth; s.classList.add('pop');
+    clearError('#c-overall');
+  });
+});
+starsEl.addEventListener('mouseleave', () => {
+  const c = form.querySelector('input[name=overall_rating]:checked');
+  paintStars(c ? +c.value : 0);
+});
+
+/* ============ BUILD QUESTIONS ============ */
+const qWrap = $('#questions');
+QUESTIONS.forEach(([name, text], idx) => {
+  const f = document.createElement('fieldset');
+  f.className = 'q'; f.dataset.field = name;
+  let radios = '';
+  for (let v = 1; v <= 5; v++){
+    radios += `<label><input type="radio" name="${name}" value="${v}" aria-label="${v} — ${AGREE[v-1]}"><span aria-hidden="true">${v}</span></label>`;
+  }
+  f.innerHTML = `<legend><span class="n">${idx+1}.</span>${text}</legend>
+    <div class="scale">${radios}</div>
+    <div class="ends" aria-hidden="true"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+    <div class="picked" aria-live="polite"></div>
+    <p class="err" role="alert">Please choose a rating for this statement.</p>`;
+  f.addEventListener('change', e => {
+    f.querySelector('.picked').textContent = `${e.target.value} — ${AGREE[e.target.value-1]}`;
+    f.classList.remove('invalid');
+  });
+  qWrap.appendChild(f);
+});
+
+/* ============ VALIDATION ============ */
+function clearError(sel){ const el = $(sel); if (el) el.classList.remove('invalid'); }
+$('#student_name').addEventListener('input', () => clearError('#c-name'));
+$('#feedback').addEventListener('input', () => clearError('#c-feedback'));
+form.querySelectorAll('[name=public_feedback_permission]').forEach(r => r.addEventListener('change', () => clearError('#c-consent')));
+
+function validate(){
+  const bad = [];
+  const mark = (el, focusEl) => { el.classList.add('invalid'); bad.push([el, focusEl]); };
+  document.querySelectorAll('.invalid').forEach(e => e.classList.remove('invalid'));
+
+  if (!$('#student_name').value.trim()) mark($('#c-name'), $('#student_name'));
+  if (!form.querySelector('[name=overall_rating]:checked')) mark($('#c-overall'), starEls[0].querySelector('input'));
+  QUESTIONS.forEach(([name]) => {
+    if (!form.querySelector(`[name=${name}]:checked`)){
+      const f = form.querySelector(`fieldset[data-field=${name}]`);
+      mark(f, f.querySelector('input'));
+    }
+  });
+  if (!$('#feedback').value.trim()) mark($('#c-feedback'), $('#feedback'));
+  if (!form.querySelector('[name=public_feedback_permission]:checked')) mark($('#c-consent'), form.querySelector('[name=public_feedback_permission]'));
+  return bad;
+}
+
+/* ============ SUBMIT ============ */
+let inFlight = false, submitted = false;
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  if (inFlight || submitted) return;
+  const fe = $('#form-error'); fe.style.display = 'none';
+  const bad = validate();
+  if (bad.length){
+    fe.textContent = `Please complete the ${bad.length === 1 ? 'highlighted item' : bad.length + ' highlighted items'} above.`;
+    fe.style.display = 'block';
+    const [el, focusEl] = bad[0];
+    el.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block: 'center'});
+    focusEl.focus({preventScroll: true});
+    return;
+  }
+  const v = n => form.querySelector(`[name=${n}]:checked`).value;
+  const payload = {
+    student_name: $('#student_name').value.trim(),
+    overall_rating: +v('overall_rating'),
+    ...Object.fromEntries(QUESTIONS.map(([n]) => [n, +v(n)])),
+    written_feedback: $('#feedback').value.trim(),
+    public_feedback_permission: v('public_feedback_permission')
+  };
+  const btn = $('#submit');
+  inFlight = true; btn.disabled = true; btn.textContent = 'Submitting...';
+  try {
+    await submitFeedback(payload);
+    submitted = true;
+    btn.textContent = 'Feedback Submitted';   // stays disabled: no duplicate submissions
+    const s = $('#success');
+    form.parentNode.insertBefore(s, form);    // thank-you card above; the student's answers stay visible
+    s.classList.add('show'); s.focus({preventScroll: true});
+    s.scrollIntoView({behavior: 'smooth', block: 'start'});
+  } catch (err){
+    btn.disabled = false; btn.textContent = 'Submit My Feedback';
+    if (!(err instanceof SubmitError)) console.error('[feedback] Unexpected error:', err);
+    fe.textContent = err instanceof SubmitError ? err.message : 'Sorry, something went wrong. Please try again.';
+    fe.style.display = 'block';
+  } finally {
+    inFlight = false;
+  }
+});
+</script>
+</body>
+</html>
